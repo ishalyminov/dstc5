@@ -81,7 +81,7 @@ class SimpleSLU:
         sa_feats = [x for x, _ in self.__speech_act_instance_list]
         sa_labels = [y for _, y in self.__speech_act_instance_list]
 
-        self.__speech_act_lb = preprocessing.LabelBinarizer()
+        self.__speech_act_lb = preprocessing.MultiLabelBinarizer()
         sa_labels = self.__speech_act_lb.fit_transform(sa_labels)
 
         self.__speech_act_model = Pipeline([
@@ -256,7 +256,7 @@ def main(argv):
     start_time = time.time()
 
     testset = dataset_walker.dataset_walker(args.testset, dataroot=args.dataroot, labels=False, translations=True)
-    sys.stderr.write('Loading training instances ... ')
+    sys.stderr.write('Loading testing instances ... ')
     for call in testset:
         this_session = {"session_id": call.log["session_id"], "utterances": []}
         for (log_utter, translations, label_utter) in call:
